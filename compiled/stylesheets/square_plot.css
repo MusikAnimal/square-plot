@@ -1,0 +1,35 @@
+body {
+  font-family: sans-serif; }
+  body .level-1 {
+    margin: 10px 0px; }
+    body .level-1 img {
+      vertical-align: middle;
+      margin-right: 5px;
+      cursor: pointer; }
+  body .level-2 {
+    margin: 10px 35px; }
+    body .level-2 img {
+      vertical-align: middle;
+      margin-right: 5px;
+      cursor: pointer; }
+  body .level-3 {
+    margin: 10px 70px; }
+    body .level-3 img {
+      vertical-align: middle;
+      margin-right: 5px;
+      cursor: pointer; }
+  body .level-4 {
+    margin: 10px 105px; }
+    body .level-4 img {
+      vertical-align: middle;
+      margin-right: 5px;
+      cursor: pointer; }
+  body .level-5 {
+    margin: 10px 140px; }
+    body .level-5 img {
+      vertical-align: middle;
+      margin-right: 5px;
+      cursor: pointer; }
+  body #canvas {
+    height: 400px;
+    width: 100%; }

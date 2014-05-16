@@ -1,0 +1,19 @@
+body {
+  font-family: sans-serif;
+  @for $i from 1 through 5 {
+    // class for use in layout
+    .level-#{$i} {
+      margin: 10px #{35 * ($i - 1)}px;
+      img {
+        vertical-align: middle;
+        margin-right: 5px;
+        cursor: pointer;
+      }
+    }
+  }
+
+  #canvas {
+    height: 400px;
+    width: 100%;
+  }
+}
