@@ -1,3 +1,9 @@
+@mixin std-background {
+  background: rgba(255,255,255,0.8);
+  padding: 10px;
+  border-radius: 5px;
+}
+
 body {
   font-family: sans-serif;
   @for $i from 1 through 5 {
@@ -12,8 +18,42 @@ body {
     }
   }
 
-  #canvas {
+  .categories, .controls {
+    position: absolute;
+    z-index: 100;
+  }
+  .categories {
+    left: 90px;
+    top: 34px;
+  }
+
+  .category-list-tupac-wrapper {
+    margin-top: 10px;
     height: 400px;
+    overflow: scroll;
+    @include std-background;
+    h3 { margin-top: 0px; }
+    .cat-entry {
+      &:first-child {
+        margin-top: 0px;
+      }
+      &:last-child {
+        margin-bottom: 0px;
+      }
+    }
+  }
+
+  .stats {
+    display: none;
+    @include std-background;
+  }
+
+  #canvas {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
     width: 100%;
+    z-index: 50;
   }
 }

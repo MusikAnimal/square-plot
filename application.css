@@ -30,6 +30,34 @@ body {
       vertical-align: middle;
       margin-right: 5px;
       cursor: pointer; }
-  body #canvas {
+  body .categories, body .controls {
+    position: absolute;
+    z-index: 100; }
+  body .categories {
+    left: 90px;
+    top: 34px; }
+  body .category-list-tupac-wrapper {
+    margin-top: 10px;
     height: 400px;
-    width: 100%; }
+    overflow: scroll;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px; }
+    body .category-list-tupac-wrapper h3 {
+      margin-top: 0px; }
+    body .category-list-tupac-wrapper .cat-entry:first-child {
+      margin-top: 0px; }
+    body .category-list-tupac-wrapper .cat-entry:last-child {
+      margin-bottom: 0px; }
+  body .stats {
+    display: none;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px; }
+  body #canvas {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    z-index: 50; }

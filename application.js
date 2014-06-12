@@ -6,24 +6,29 @@ var api_version = "20140501";
 var access_token = null;
 var categories = null;
 var infowindow, venues, map;
+var current_cat = 0;
 
 $(document).ready((function() {
   if (document.location.hash) {
     access_token = document.location.hash.split("=")[1];
     $.getJSON("" + api_root + "/venues/categories?oauth_token=" + access_token + "&v=" + api_version, function(data) {
       categories = data.response.categories;
-      show_categories(categories);
+      showCategories(categories);
       return true;
     });
   }
   $("#connect").click(function() {
     document.location = "https://foursquare.com/oauth2/authenticate?client_id=" + client_id + "&response_type=token&redirect_uri=" + redirect_uri;
   });
-  $("#categories").on("click", "a.cat-link", function() {
+  $("#category-list").on("click", "a.cat-link", function() {
     map.clearMarkers();
-    
+
+    current_cat = $(this).data('id');
+
     $.getJSON("" + api_root + "/users/self/venuehistory?categoryId=" + ($(this).data('id')) + "&oauth_token=" + access_token + "&v=" + api_version, function(data) {
-      venues = data.response.venues.items;
+      venues = data.response.venues;
+
+      updateStats(data.response);
 
       for (var i=0; i<venues.length; i++) {
         var item = venues[i];
@@ -32,8 +37,8 @@ $(document).ready((function() {
       }
     });
   });
-  
-  init_map();
+
+  initMap();
 }));
 
 function createMarker(item, latlng) {
@@ -66,7 +71,7 @@ google.maps.Map.prototype.clearMarkers = function() {
   }
 };
 
-function set_user_coords() {
+function setUserCoords() {
   navigator.geolocation.getCurrentPosition(function(position) {
     var lat = position.coords.latitude;
     var lng = position.coords.longitude;
@@ -75,32 +80,41 @@ function set_user_coords() {
   });
 }
 
-function init_map() {
+function initMap() {
   var mapOptions = {
-    center: new google.maps.LatLng(-34.397, 150.644),
-    zoom: 8
+    center: new google.maps.LatLng(40.7902185, -73.945692),
+    zoom: 12,
+    streetViewControl : false,
+    mapTypeControl : false,
+    rotateControl : true
   };
 
   map = new google.maps.Map($("#canvas")[0], mapOptions);
-  set_user_coords();
+  // setUserCoords();
 }
 
-function show_categories(categories) {
-  $.each(categories, show_cat);
+function showCategories(categories) {
+  $.each(categories, showCat);
 
   var path = null;
 
-  function show_cat(key, value) {
+  function showCat(key, value) {
     var savePath = path;
     path = path ? path + 1 : 1;
 
-    $("#categories").append("<div class='level-" + path + "'> <img src='" + value.icon.prefix + "bg_32" + value.icon.suffix + "' /> <a href='#' data-id='" + value.id + "' class='cat-link'>" + value.name + "</a> </div>");
+    $("#category-list").append("<div class='cat-entry level-" + path + "'> <img src='" + value.icon.prefix + "bg_32" + value.icon.suffix + "' /> <a href='#' data-id='" + value.id + "' class='cat-link'>" + value.name + "</a> </div>");
     if (value.categories) {
-      $.each(value.categories, show_cat);
+      $.each(value.categories, showCat);
     }
 
     path = savePath;
   }
 
   return true;
+}
+
+function updateStats (data) {
+  html = ""
+
+  html += data.count + " " + categories[current_cat].pluralName + " total visited";
 }
