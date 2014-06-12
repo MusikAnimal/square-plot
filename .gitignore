@@ -1,3 +1,4 @@
 .DS_Store
 api_config.js
 config.codekit
+.sass-cache
