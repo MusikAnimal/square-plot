@@ -7,6 +7,7 @@ var access_token = null;
 var categories = null;
 var infowindow, venues, map;
 var current_cat = 0;
+var polyList = [];
 
 $(document).ready((function() {
   if (document.location.hash) {
@@ -26,9 +27,9 @@ $(document).ready((function() {
     current_cat = $(this).data('id');
 
     $.getJSON("" + api_root + "/users/self/venuehistory?categoryId=" + ($(this).data('id')) + "&oauth_token=" + access_token + "&v=" + api_version, function(data) {
-      venues = data.response.venues;
+      venues = data.response.venues.items;
 
-      updateStats(data.response);
+      // updateStats(data.response);
 
       for (var i=0; i<venues.length; i++) {
         var item = venues[i];
@@ -36,6 +37,10 @@ $(document).ready((function() {
         map.addMarker(createMarker(item,latlng));
       }
     });
+  });
+
+  $("body").on("click","a[href='#']",function(e) {
+    e.preventDefault();
   });
 
   initMap();
@@ -114,7 +119,38 @@ function showCategories(categories) {
 }
 
 function updateStats (data) {
-  html = ""
-
-  html += data.count + " " + categories[current_cat].pluralName + " total visited";
+  html = "";
+  html += data.venues.count + " " + categories[current_cat].pluralName + " total visited";
+  $("#stats").html(html).show();
 }
+
+function setUpZones() {
+  $.each(neighborhoods, function(i,zone) {
+    var paths = [];
+    for(var j in zone.coords) {
+      var lat = zone.coords[j].lat;
+      var lng = zone.coords[j].lng;
+      paths.push(new google.maps.LatLng(lat,lng));
+    }
+
+    var poly = new google.maps.Polygon({
+      paths: paths,
+      strokeColor: "#000000",
+      strokeOpacity: 0.25,
+      strokeWeight: 2,
+      fillColor: '#'+zone.color,
+      fillOpacity: 0.45
+    });
+
+    poly.infowindow = new google.maps.InfoWindow({
+      content : "<div style='font-weight:bold; font-size:14px; color: black'>" + zone.name + "</div>",
+      name : i
+    });
+    poly.setMap(map);
+    // google.maps.event.addListener(poly, "click", showInfo);
+
+    polyList.push(poly);
+  });
+}
+
+
