@@ -29,7 +29,7 @@ $(document).ready((function() {
     $.getJSON("" + api_root + "/users/self/venuehistory?categoryId=" + ($(this).data('id')) + "&oauth_token=" + access_token + "&v=" + api_version, function(data) {
       venues = data.response.venues.items;
 
-      // updateStats(data.response);
+      updateStats(data.response);
 
       for (var i=0; i<venues.length; i++) {
         var item = venues[i];
@@ -120,7 +120,8 @@ function showCategories(categories) {
 
 function updateStats (data) {
   html = "";
-  html += data.venues.count + " " + categories[current_cat].pluralName + " total visited";
+  // html += data.venues.count + " " + categories[current_cat].pluralName + " total visited";
+  html += data.venues.count + " visited";
   $("#stats").html(html).show();
 }
 
