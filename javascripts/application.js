@@ -1,18 +1,13 @@
 var google; // should already be defined
 var client_id = "3JD0TUHCIB2VVNGILRR32KNB4OUHZDYIQJWJMBPDFEZSBRXH";
 var redirect_uri = "http://localhost";
-var api_root = "https://api.foursquare.com/v2";
-var api_version = "20140501";
-var access_token = null;
 var categories = null;
 var infowindow, venues, map;
 var current_cat = 0;
-var polyList = [];
 
 $(document).ready((function() {
   if (document.location.hash) {
-    access_token = document.location.hash.split("=")[1];
-    $.getJSON("" + api_root + "/venues/categories?oauth_token=" + access_token + "&v=" + api_version, function(data) {
+    FS.getCategories().then(function(data) {
       categories = data.response.categories;
       showCategories(categories);
       return true;
@@ -26,7 +21,7 @@ $(document).ready((function() {
 
     current_cat = $(this).data('id');
 
-    $.getJSON("" + api_root + "/users/self/venuehistory?categoryId=" + ($(this).data('id')) + "&oauth_token=" + access_token + "&v=" + api_version, function(data) {
+    $.getJSON("" + FS.api_root + "/users/self/venuehistory?categoryId=" + ($(this).data('id')) + "&oauth_token=" + accessToken() + "&v=" + FS.api_version, function(data) {
       venues = data.response.venues.items;
 
       updateStats(data.response);
@@ -34,7 +29,12 @@ $(document).ready((function() {
       for (var i=0; i<venues.length; i++) {
         var item = venues[i];
         var latlng = new google.maps.LatLng(item.venue.location.lat, item.venue.location.lng);
-        map.addMarker(createMarker(item,latlng));
+        // get zone names
+        var zones = Zoner.getNeighborhoods(latlng);
+        zones = $.map(zones, function(val,i) {
+          return val.name;
+        });
+        map.addMarker(createMarker(item,latlng,zones));
       }
     });
   });
@@ -46,15 +46,16 @@ $(document).ready((function() {
   initMap();
 }));
 
-function createMarker(item, latlng) {
+function createMarker(item, latlng, zones) {
   var marker = new google.maps.Marker({position: latlng, map: map});
   google.maps.event.addListener(marker, "click", function() {
     if (infowindow) {
       infowindow.close();
     }
+    var zoneStr = zones.length ? zones.join(", ")+"<br/>" : "";
     infowindow = new google.maps.InfoWindow({content:
       "<a href='http://foursquare.com/v/" + item.venue.id + "' target='_blank' style='font-weight:bold; font-size:14px; color: black'>" + item.venue.name + "</a>" +
-      "<p>" + item.beenHere + " check in" + (item.beenHere > 1 ? "s" : "") + " </p>"
+      "<p>" + zoneStr + item.beenHere + " check in" + (item.beenHere > 1 ? "s" : "") + " </p>"
     });
     infowindow.open(map, marker);
   });
@@ -75,6 +76,11 @@ google.maps.Map.prototype.clearMarkers = function() {
     this.markers[i].set_map(null);
   }
 };
+
+function accessToken() {
+  // FIXME: NOPE
+  return document.location.hash.split("=")[1];
+}
 
 function setUserCoords() {
   navigator.geolocation.getCurrentPosition(function(position) {
