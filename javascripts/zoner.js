@@ -35,7 +35,9 @@ var Zoner = {
       Zoner.polyList.push(polyZone);
 
       poly.setMap(map);
-      google.maps.event.addListener(poly, "click", Zoner.showInfo(polyZone));
+      google.maps.event.addListener(poly, "click", function(e) {
+        Zoner.showInfo(e,polyZone);
+      });
     });
   },
 
@@ -62,7 +64,8 @@ var Zoner = {
     });
   },
 
-  showInfo: function(zone) {
+  showInfo: function(e,zone) {
+    var latLng = new google.maps.LatLng(e.latLng.lat(),e.latLng.lng());
     if(infowindow) {
       infowindow.close();
     }
@@ -70,6 +73,7 @@ var Zoner = {
     infowindow = new google.maps.InfoWindow({
       content: html
     });
+    infowindow.setPosition(latLng);
     infowindow.open(map);
   }
 }

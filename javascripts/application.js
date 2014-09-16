@@ -44,6 +44,7 @@ $(document).ready((function() {
   });
 
   initMap();
+  Zoner.plot();
 }));
 
 function createMarker(item, latlng, zones) {
@@ -105,23 +106,32 @@ function initMap() {
 }
 
 function showCategories(categories) {
-  $.each(categories, showCat);
+  var path, parentId = null;
 
-  var path = null;
+  $.each(categories, showCat);
 
   function showCat(key, value) {
     var savePath = path;
     path = path ? path + 1 : 1;
 
-    $("#category-list").append("<div class='cat-entry level-" + path + "'> <img src='" + value.icon.prefix + "bg_32" + value.icon.suffix + "' /> <a href='#' data-id='" + value.id + "' class='cat-link'>" + value.name + "</a> </div>");
-    if (value.categories) {
+    var $parent = $("#category-list").parent().find(".level-"+(path-1)).last();
+    $parent.last(".level-"+(path-1)).append("<div data-id=" + value.id + " data-level=" + path + " class='cat-entry level-" + path + "'> <img src='" + value.icon.prefix + "bg_32" + value.icon.suffix + "' /> <a href='#' data-id='" + value.id + "' class='cat-link'>" + value.name + "</a> </div>");
+    if (value.categories && value.categories.length) {
+      $(".cat-entry").last().addClass("has-children");
       $.each(value.categories, showCat);
     }
 
     path = savePath;
   }
 
+  $(".cat-entry img").on("click", expandCats);
+
   return true;
+}
+
+function expandCats() {
+  $el = $(this).parent();
+  $el.toggleClass("expanded");
 }
 
 function updateStats (data) {
