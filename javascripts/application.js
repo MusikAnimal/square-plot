@@ -3,7 +3,7 @@ var client_id = "3JD0TUHCIB2VVNGILRR32KNB4OUHZDYIQJWJMBPDFEZSBRXH";
 var redirect_uri = "http://localhost";
 var categories = null;
 var infowindow, venues, map;
-var current_cat = 0;
+var current_cat = null;
 
 $(document).ready((function() {
   if (document.location.hash) {
@@ -115,7 +115,7 @@ function showCategories(categories) {
     path = path ? path + 1 : 1;
 
     var $parent = $("#category-list").parent().find(".level-"+(path-1)).last();
-    $parent.last(".level-"+(path-1)).append("<div data-id=" + value.id + " data-level=" + path + " class='cat-entry level-" + path + "'> <img src='" + value.icon.prefix + "bg_32" + value.icon.suffix + "' /> <a href='#' data-id='" + value.id + "' class='cat-link'>" + value.name + "</a> </div>");
+    $parent.last(".level-"+(path-1)).append("<div data-id=" + value.id + " data-level=" + path + " class='cat-entry level-" + path + "'> <span class='expand-cat'><img src='" + value.icon.prefix + "bg_32" + value.icon.suffix + "' /></span> <a href='#' data-id='" + value.id + "' class='cat-link'>" + value.name + "</a> </div>");
     if (value.categories && value.categories.length) {
       $(".cat-entry").last().addClass("has-children");
       $.each(value.categories, showCat);
@@ -124,7 +124,7 @@ function showCategories(categories) {
     path = savePath;
   }
 
-  $(".cat-entry img").on("click", expandCats);
+  $(".expand-cat").on("click", expandCats);
 
   return true;
 }

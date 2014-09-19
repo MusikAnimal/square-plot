@@ -3,6 +3,28 @@
   padding: 10px;
   border-radius: 5px;
 }
+@mixin arrow($expanded: false) {
+  cursor: pointer;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 7px solid #A4A39C;
+  content: "";
+  display: inline-block;
+  height: 0px;
+  margin-left: 0px;
+  margin-right: 3px;
+  position: relative;
+  top: 2px;
+  width: 0px;
+  @if $expanded == true {
+    border-top: 7px solid #A4A39C;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    left: -3px;
+    margin-right: -2px;
+    top: 5px;
+  }
+}
 
 body {
   font-family: sans-serif;
@@ -25,13 +47,13 @@ body {
   .categories {
     left: 90px;
     top: 34px;
+    @include std-background;
   }
 
   .category-list-tupac-wrapper {
     margin-top: 10px;
     height: 400px;
     overflow: scroll;
-    @include std-background;
     a {
       color: #A4A39C;
       text-decoration: none;
@@ -43,40 +65,19 @@ body {
     .cat-entry.level-1 { display: block; }
     .cat-entry {
       display: none;
-      &::before {
-        border-top: 6px solid transparent;
-        border-bottom: 6px solid transparent;
-        border-left: 7px solid transparent;
-        content: "";
-        display: inline-block;
-        height: 0px;
-        margin-right: 1px;
-        position: relative;
-        top: 2px;
-        width: 0px;
-      }
+      & > span { margin-left: 10px; }
+      &.level-1 { margin-left: 4px; }
       &.has-children {
-        &::before {
-          border-top: 6px solid transparent;
-          border-bottom: 6px solid transparent;
-          border-left: 7px solid #A4A39C;
-          content: "";
-          display: inline-block;
-          height: 0px;
-          margin-right: 1px;
-          position: relative;
-          top: 2px;
-          width: 0px;
+        & > span {
+          margin-left: 0px;
+          &::before {
+            @include arrow;
+          }
         }
         &.expanded {
           & > div { display: block; }
-          &::before {
-            border-top: 7px solid #A4A39C;
-            border-left: 6px solid transparent;
-            border-right: 6px solid transparent;
-            left: -3px;
-            margin-right: -4px;
-            top: 4px;
+          & > span::before {
+            @include arrow(true);
           }
         }
       }
