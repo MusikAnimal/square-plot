@@ -17,10 +17,16 @@ $(document).ready((function() {
   $("#connect").click(function() {
     document.location = "https://foursquare.com/oauth2/authenticate?client_id=" + client_id + "&response_type=token&redirect_uri=" + redirect_uri;
   });
-  $("#category-list").on("click", "a.cat-link", function() {
+  $("#category_list").on("click", "a.cat-link", function() {
     map.clearMarkers();
 
     current_cat = $(this).data('id');
+
+    // hide category list and show control to clear this category
+    $current_cat = $(".cat-"+current_cat).clone();
+    $(".cat-entry").hide();
+    $current_cat.addClass("selected").find("a").removeClass("cat-link");
+    $("#category_list").prepend($current_cat);
 
     $.getJSON("" + FS.api_root + "/users/self/venuehistory?categoryId=" + ($(this).data('id')) + "&oauth_token=" + accessToken() + "&v=" + FS.api_version, function(data) {
       venues = data.response.venues.items;
@@ -115,8 +121,8 @@ function showCategories(categories) {
     var savePath = path;
     path = path ? path + 1 : 1;
 
-    var $parent = $("#category-list").parent().find(".level-"+(path-1)).last();
-    $parent.last(".level-"+(path-1)).append("<div data-id=" + value.id + " data-level=" + path + " class='cat-entry level-" + path + "'> <span class='expand-cat'><img src='" + value.icon.prefix + "bg_32" + value.icon.suffix + "' /></span> <a href='#' data-id='" + value.id + "' class='cat-link'>" + value.name + "</a> </div>");
+    var $parent = $("#category_list").parent().find(".level-"+(path-1)).last();
+    $parent.last(".level-"+(path-1)).append("<div data-id=" + value.id + " data-level=" + path + " class='cat-entry cat-" + value.id + " level-" + path + "'> <span class='expand-cat'><img src='" + value.icon.prefix + "bg_32" + value.icon.suffix + "' /></span> <a href='#' data-id='" + value.id + "' class='cat-link'>" + value.name + "</a> </div>");
     if (value.categories && value.categories.length) {
       $(".cat-entry").last().addClass("has-children");
       $.each(value.categories, showCat);

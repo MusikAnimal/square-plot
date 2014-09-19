@@ -4,7 +4,6 @@
   border-radius: 5px;
 }
 @mixin arrow($expanded: false) {
-  cursor: pointer;
   border-top: 6px solid transparent;
   border-bottom: 6px solid transparent;
   border-left: 7px solid #A4A39C;
@@ -35,7 +34,6 @@ body {
       img {
         vertical-align: middle;
         margin-right: 5px;
-        cursor: pointer;
       }
     }
   }
@@ -89,8 +87,7 @@ body {
   }
 
   .category-list-tupac-wrapper {
-    margin-top: 10px;
-    height: 400px;
+    max-height: 400px;
     overflow: scroll;
     h3 {
       margin-top: 0px;
@@ -99,8 +96,18 @@ body {
     .cat-entry.level-1 { display: block; }
     .cat-entry {
       display: none;
-      & > span { margin-left: 10px; }
+      & > span {
+        cursor: pointer;
+        margin-left: 10px;
+      }
       &.level-1 { margin-left: 4px; }
+      &.selected {
+        display: block;
+        margin-left: 0px;
+        width: 100%;
+        @include std-background;
+        & > * { cursor: default; }
+      }
       &.has-children {
         & > span {
           margin-left: 0px;
