@@ -7,6 +7,7 @@ var current_cat = null;
 
 $(document).ready((function() {
   if (document.location.hash) {
+    $("#connect").hide();
     FS.getCategories().then(function(data) {
       categories = data.response.categories;
       showCategories(categories);

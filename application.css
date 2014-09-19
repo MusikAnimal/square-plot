@@ -30,6 +30,11 @@ body {
       vertical-align: middle;
       margin-right: 5px;
       cursor: pointer; }
+  body a {
+    color: #A4A39C;
+    text-decoration: none; }
+    body a:hover {
+      text-decoration: underline; }
   body .categories, body .controls {
     position: absolute;
     z-index: 100; }
@@ -39,17 +44,38 @@ body {
     background: rgba(255, 255, 255, 0.8);
     padding: 10px;
     border-radius: 5px; }
+  body #connect {
+    background: rgba(255, 255, 255, 0.8);
+    border: solid 1px #C4C3BC;
+    border-radius: 2px;
+    box-sizing: border-box;
+    display: block;
+    padding: 8px;
+    text-align: center;
+    text-decoration: none !important;
+    width: 100%; }
+  body input {
+    background: rgba(255, 255, 255, 0.8);
+    border: solid 1px #A4A39C;
+    border-radius: 2px;
+    box-sizing: border-box;
+    font-size: 12px;
+    height: 26px;
+    line-height: 26px;
+    margin: 0px 5px 10px;
+    outline: none;
+    padding: 14px;
+    width: 300px;
+    -webkit-transition: all 200ms ease-in-out; }
+    body input:focus {
+      box-shadow: 0 0 6px #c8c8c8; }
   body .category-list-tupac-wrapper {
     margin-top: 10px;
     height: 400px;
     overflow: scroll; }
-    body .category-list-tupac-wrapper a {
-      color: #A4A39C;
-      text-decoration: none; }
-      body .category-list-tupac-wrapper a:hover {
-        text-decoration: underline; }
     body .category-list-tupac-wrapper h3 {
-      margin-top: 0px; }
+      margin-top: 0px;
+      margin-bottom: 8px; }
     body .category-list-tupac-wrapper .cat-entry.level-1 {
       display: block; }
     body .category-list-tupac-wrapper .cat-entry {

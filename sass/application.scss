@@ -40,6 +40,14 @@ body {
     }
   }
 
+  a {
+    color: #A4A39C;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   .categories, .controls {
     position: absolute;
     z-index: 100;
@@ -50,18 +58,44 @@ body {
     @include std-background;
   }
 
+  #connect {
+    background: rgba(255,255,255,0.8);
+    border: solid 1px #C4C3BC;
+    border-radius: 2px;
+    box-sizing: border-box;
+    display: block;
+    padding: 8px;
+    text-align: center;
+    text-decoration: none !important;
+    width: 100%;
+  }
+
+  input {
+    background: rgba(255,255,255,0.8);
+    border: solid 1px #A4A39C;
+    border-radius: 2px;
+    box-sizing: border-box;
+    font-size: 12px;
+    height: 26px;
+    line-height: 26px;
+    margin: 0px 5px 10px;
+    outline: none;
+    padding: 14px;
+    width: 300px;
+    -webkit-transition: all 200ms ease-in-out;
+    &:focus {
+      box-shadow: 0 0 6px rgba(200, 200, 200, 1);
+    }
+  }
+
   .category-list-tupac-wrapper {
     margin-top: 10px;
     height: 400px;
     overflow: scroll;
-    a {
-      color: #A4A39C;
-      text-decoration: none;
-      &:hover {
-        text-decoration: underline;
-      }
+    h3 {
+      margin-top: 0px;
+      margin-bottom: 8px;
     }
-    h3 { margin-top: 0px; }
     .cat-entry.level-1 { display: block; }
     .cat-entry {
       display: none;
