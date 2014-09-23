@@ -1,0 +1,10 @@
+<a href='http://foursquare.com/v/{{venue.id}}' target='_blank' style='font-weight:bold; font-size:14px; color: black'>
+  {{venue.name}}
+</a>
+<p>
+  {{#each zones}}
+  <a href='#' class='open-zone' data-polyIndex='{{polyIndex}}'>{{name}}</a>
+  {{/each}}
+  <br/>
+  {{beenHere}} check in{{plural}}
+</p>

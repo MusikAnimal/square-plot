@@ -101,13 +101,6 @@ body {
         margin-left: 10px;
       }
       &.level-1 { margin-left: 4px; }
-      &.selected {
-        display: block;
-        margin-left: 0px;
-        width: 100%;
-        @include std-background;
-        & > * { cursor: default; }
-      }
       &.has-children {
         & > span {
           margin-left: 0px;
@@ -129,6 +122,24 @@ body {
         margin-bottom: 0px;
       }
     }
+    .close-cat {
+      cursor: pointer !important;
+      float: right;
+    }
+  }
+
+  .filter {
+    box-sizing: border-box;
+    color: #A4A39C;
+    display: block;
+    margin-left: 0px;
+    margin-bottom: 10px;
+    width: 100%;
+    @include std-background;
+    img {
+      margin-right: 5px;
+      vertical-align: middle;
+    }
   }
 
   .stats {
@@ -144,4 +155,19 @@ body {
     width: 100%;
     z-index: 50;
   }
+
+  .open-zone {
+    color: black;
+    &::after {
+      content: ",";
+      display: inline-block;
+    }
+    &:last-of-type::after {
+      display: none;
+    }
+  }
+}
+
+.none {
+  display: none !important;
 }

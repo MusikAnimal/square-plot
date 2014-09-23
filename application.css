@@ -79,15 +79,6 @@ body {
         margin-left: 10px; }
       body .category-list-tupac-wrapper .cat-entry.level-1 {
         margin-left: 4px; }
-      body .category-list-tupac-wrapper .cat-entry.selected {
-        display: block;
-        margin-left: 0px;
-        width: 100%;
-        background: rgba(255, 255, 255, 0.8);
-        padding: 10px;
-        border-radius: 5px; }
-        body .category-list-tupac-wrapper .cat-entry.selected > * {
-          cursor: default; }
       body .category-list-tupac-wrapper .cat-entry.has-children > span {
         margin-left: 0px; }
         body .category-list-tupac-wrapper .cat-entry.has-children > span::before {
@@ -126,6 +117,22 @@ body {
         margin-top: 0px; }
       body .category-list-tupac-wrapper .cat-entry:last-child {
         margin-bottom: 0px; }
+    body .category-list-tupac-wrapper .close-cat {
+      cursor: pointer !important;
+      float: right; }
+  body .filter {
+    box-sizing: border-box;
+    color: #A4A39C;
+    display: block;
+    margin-left: 0px;
+    margin-bottom: 10px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 5px; }
+    body .filter img {
+      margin-right: 5px;
+      vertical-align: middle; }
   body .stats {
     display: none;
     background: rgba(255, 255, 255, 0.8);
@@ -138,3 +145,13 @@ body {
     height: 100%;
     width: 100%;
     z-index: 50; }
+  body .open-zone {
+    color: black; }
+    body .open-zone::after {
+      content: ",";
+      display: inline-block; }
+    body .open-zone:last-of-type::after {
+      display: none; }
+
+.none {
+  display: none !important; }

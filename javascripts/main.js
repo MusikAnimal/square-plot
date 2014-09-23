@@ -17,16 +17,41 @@ $(document).ready((function() {
   $("#connect").click(function() {
     document.location = "https://foursquare.com/oauth2/authenticate?client_id=" + client_id + "&response_type=token&redirect_uri=" + redirect_uri;
   });
-  $("#category_list").on("click", "a.cat-link", function() {
+  $("#canvas").on("click", ".open-zone", function() {
+    filterHtml = Handlebars.templates.filter({
+      name : $(this).text(),
+      image : "images/neighborhood_bg_32.png"
+    });
+    $("#category_list").prepend(filterHtml);
+    $(".cat-entry.filter").find("img").prop("src","images/neighborhood_bg_32.png");
+
+    // don't know Zoner.polyList index, needs to be data-attr on anchor tag
+    // Zoner.getWithinNeighborhood(Zoner.polyList[]);
+    // $current_zone.find("a").text($(this));
+    
+  });
+  $("#category_list").on("click", ".close-cat", function() {
+    current_cat = null;
+    venues = null;
+    map.clearMarkers();
+    $(this).parent().remove();
+    $(".cat-entry").removeClass("none");
+    $("#stats").hide();
+  });
+  $("#category_list").on("click", ".cat-link", function() {
     map.clearMarkers();
 
     current_cat = $(this).data('id');
 
     // hide category list and show control to clear this category
-    $current_cat = $(".cat-"+current_cat).clone();
-    $(".cat-entry").hide();
-    $current_cat.addClass("selected").find("a").removeClass("cat-link");
-    $("#category_list").prepend($current_cat);
+    $(".cat-entry").addClass("none");
+
+    filterHtml = Handlebars.templates.filter({
+      name : $(this).text(),
+      image : $(this).siblings(".expand-cat").find("img").prop("src")
+    });
+    $("#category_list").prepend(filterHtml);
+
 
     $.getJSON("" + FS.api_root + "/users/self/venuehistory?categoryId=" + ($(this).data('id')) + "&oauth_token=" + accessToken() + "&v=" + FS.api_version, function(data) {
       venues = data.response.venues.items;
@@ -36,11 +61,8 @@ $(document).ready((function() {
       for (var i=0; i<venues.length; i++) {
         var item = venues[i];
         var latlng = new google.maps.LatLng(item.venue.location.lat, item.venue.location.lng);
-        // get zone names
+
         var zones = Zoner.getNeighborhoods(latlng);
-        zones = $.map(zones, function(val,i) {
-          return val.name;
-        });
         map.addMarker(createMarker(item,latlng,zones));
       }
     });
@@ -55,15 +77,24 @@ $(document).ready((function() {
 }));
 
 function createMarker(item, latlng, zones) {
+  // TODO: make this an object in separate file
+
   var marker = new google.maps.Marker({position: latlng, map: map});
   google.maps.event.addListener(marker, "click", function() {
     if (infowindow) {
       infowindow.close();
     }
-    var zoneStr = zones.length ? zones.join(", ")+"<br/>" : "";
-    infowindow = new google.maps.InfoWindow({content:
-      "<a href='http://foursquare.com/v/" + item.venue.id + "' target='_blank' style='font-weight:bold; font-size:14px; color: black'>" + item.venue.name + "</a>" +
-      "<p>" + zoneStr + item.beenHere + " check in" + (item.beenHere > 1 ? "s" : "") + " </p>"
+
+    var data = item;
+    $.extend(data, {
+      plural : data.beenHere > 1 ? "s" : "",
+      zones : zones
+    });
+
+    var infoWindowHtml = Handlebars.templates.zoneInfoWindow(data);
+
+    infowindow = new google.maps.InfoWindow({
+      content: infoWindowHtml
     });
     infowindow.open(map, marker);
   });
@@ -81,7 +112,7 @@ google.maps.Map.prototype.clearMarkers = function() {
     infowindow.close();
   }
   for(var i=0; i<this.markers.length; i++){
-    this.markers[i].set_map(null);
+    this.markers[i].setMap(null);
   }
 };
 
@@ -122,9 +153,15 @@ function showCategories(categories) {
     path = path ? path + 1 : 1;
 
     var $parent = $("#category_list").parent().find(".level-"+(path-1)).last();
-    $parent.last(".level-"+(path-1)).append("<div data-id=" + value.id + " data-level=" + path + " class='cat-entry cat-" + value.id + " level-" + path + "'> <span class='expand-cat'><img src='" + value.icon.prefix + "bg_32" + value.icon.suffix + "' /></span> <a href='#' data-id='" + value.id + "' class='cat-link'>" + value.name + "</a> </div>");
-    if (value.categories && value.categories.length) {
-      $(".cat-entry").last().addClass("has-children");
+
+    $.extend(value, {
+      path: path,
+      hasChildren: value.categories && value.categories.length
+    });
+    var html = Handlebars.templates.category(value);
+    $parent.last(".level-"+(path-1)).append(html);
+
+    if(value.hasChildren) {
       $.each(value.categories, showCat);
     }
 

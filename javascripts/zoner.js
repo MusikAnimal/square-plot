@@ -2,6 +2,7 @@ var Zoner = {
   polyList: [],
 
   plot: function() {
+    // TODO: create module for neighborhood
     $.each(neighborhoods, function(i,zone) {
       var paths = [];
       for(var j in zone.coords) {
@@ -30,6 +31,7 @@ var Zoner = {
 
       var polyZone = {
         name: zone.name,
+        polyIndex: i,
         polygon: poly
       }
       Zoner.polyList.push(polyZone);
@@ -55,10 +57,10 @@ var Zoner = {
     });
   },
 
-  getWithinNeighborhood: function(venues,zone) {
+  getWithinNeighborhood: function(zone) {
     return $.grep(venues, function(venue) {
-      var lat = venue.location.lat;
-      var lng = venue.location.lng;
+      var lat = venue.venue.location.lat;
+      var lng = venue.venue.location.lng;
       var latLng = new google.maps.LatLng(lat,lng);
       return google.maps.geometry.poly.containsLocation(latLng, zone.polygon);
     });
@@ -76,4 +78,4 @@ var Zoner = {
     infowindow.setPosition(latLng);
     infowindow.open(map);
   }
-}
+};

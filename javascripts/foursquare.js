@@ -24,4 +24,4 @@ var FS = {
   getCategories: function() {
     return FS.getter("/venues/categories");
   }
-}
+};
