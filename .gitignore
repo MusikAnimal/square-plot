@@ -1,6 +1,4 @@
 .DS_Store
 api_config.js
-config.codekit
 .sass-cache
 *.swp
-concat.codekit.js

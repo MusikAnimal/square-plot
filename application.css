@@ -76,7 +76,7 @@ body {
       display: none; }
       body .category-list-tupac-wrapper .cat-entry > span {
         cursor: pointer;
-        margin-left: 10px; }
+        margin-left: 11px; }
       body .category-list-tupac-wrapper .cat-entry.level-1 {
         margin-left: 4px; }
       body .category-list-tupac-wrapper .cat-entry.has-children > span {
@@ -89,7 +89,7 @@ body {
           display: inline-block;
           height: 0px;
           margin-left: 0px;
-          margin-right: 3px;
+          margin-right: 0px;
           position: relative;
           top: 2px;
           width: 0px; }
@@ -103,7 +103,7 @@ body {
         display: inline-block;
         height: 0px;
         margin-left: 0px;
-        margin-right: 3px;
+        margin-right: 0px;
         position: relative;
         top: 2px;
         width: 0px;
@@ -111,15 +111,12 @@ body {
         border-left: 6px solid transparent;
         border-right: 6px solid transparent;
         left: -3px;
-        margin-right: -2px;
+        margin-right: -5px;
         top: 5px; }
       body .category-list-tupac-wrapper .cat-entry:first-child {
         margin-top: 0px; }
       body .category-list-tupac-wrapper .cat-entry:last-child {
         margin-bottom: 0px; }
-    body .category-list-tupac-wrapper .close-cat {
-      cursor: pointer !important;
-      float: right; }
   body .filter {
     box-sizing: border-box;
     color: #A4A39C;
@@ -130,6 +127,9 @@ body {
     background: rgba(255, 255, 255, 0.8);
     padding: 10px;
     border-radius: 5px; }
+    body .filter .close-filter {
+      cursor: pointer !important;
+      float: right; }
     body .filter img {
       margin-right: 5px;
       vertical-align: middle; }

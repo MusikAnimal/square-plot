@@ -18,10 +18,10 @@ templates['category'] = template({"1":function(depth0,helpers,partials,data) {
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.icon : depth0)) != null ? stack1.prefix : stack1), depth0))
     + "bg_32"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.icon : depth0)) != null ? stack1.suffix : stack1), depth0))
-    + "\" />\n  </span>\n  <a href=\"#\" class=\"cat-link\" data-id=\""
+    + "\" />\n  </span>\n  <a href=\"javascript:\" class=\"cat-link\" data-id=\""
     + escapeExpression(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"id","hash":{},"data":data}) : helper)))
     + "\">\n    "
     + escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : helperMissing),(typeof helper === functionType ? helper.call(depth0, {"name":"name","hash":{},"data":data}) : helper)))
-    + "\n  </a>\n</div>";
+    + "\n  </a>\n</div>\n";
 },"useData":true});
 })();

@@ -7,7 +7,7 @@ var FS = {
 
   getter: function(endpoint,params) {
     params = params || [];
-    return Promise.resolve($.getJSON(FS.api_root + endpoint + "?oauth_token=" + accessToken() + "&v=" + FS.api_version + params.join("&")));
+    return Promise.resolve($.getJSON(FS.api_root + endpoint + "?oauth_token=" + accessToken() + "&v=" + FS.api_version + "&" + params.join("&")));
   },
 
   explore: function(ll,radius,novelty) {
@@ -23,5 +23,11 @@ var FS = {
 
   getCategories: function() {
     return FS.getter("/venues/categories");
+  },
+
+  getUserVenuesInCategory: function(id) {
+    return FS.getter("/users/self/venuehistory", [
+        "categoryId="+id
+    ]);
   }
 };

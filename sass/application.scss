@@ -11,7 +11,7 @@
   display: inline-block;
   height: 0px;
   margin-left: 0px;
-  margin-right: 3px;
+  margin-right: 0px;
   position: relative;
   top: 2px;
   width: 0px;
@@ -20,7 +20,7 @@
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
     left: -3px;
-    margin-right: -2px;
+    margin-right: -5px;
     top: 5px;
   }
 }
@@ -98,7 +98,7 @@ body {
       display: none;
       & > span {
         cursor: pointer;
-        margin-left: 10px;
+        margin-left: 11px;
       }
       &.level-1 { margin-left: 4px; }
       &.has-children {
@@ -122,10 +122,6 @@ body {
         margin-bottom: 0px;
       }
     }
-    .close-cat {
-      cursor: pointer !important;
-      float: right;
-    }
   }
 
   .filter {
@@ -135,6 +131,10 @@ body {
     margin-left: 0px;
     margin-bottom: 10px;
     width: 100%;
+    .close-filter {
+      cursor: pointer !important;
+      float: right;
+    }
     @include std-background;
     img {
       margin-right: 5px;
